@@ -1,72 +1,174 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640">
+<html lang="en">
 
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()；
-        console.log("============");
-      })
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="lib/jquery.mobile-1.4.5.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="lib/jquery-1.10.2.min.js"></script>
+    <script src="lib/jquery.mobile-1.4.5.js"></script>
+    <script src="src/main.js"></script>
+    <script>
+        $(document).ready(function(){
+            dym.main.init();
+        });
     </script>
-    <title>Dymkkk.GitHub.io by dymkkk</title>
-  </head>
+    <title>Document</title>
+</head>
 
-  <body>
-    <a id="forkme_banner" href="https://github.com/dymkkk">View on GitHub</a>
-    <div class="shell">
-
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Dymkkk.GitHub.io</h1>
-            <h2>丁月明的博客</h2>
-            <h2>测试一下</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
-
-      <div id="no-downloads">
-        <span class="inner">
-        </span>
-      </div>
-
-
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
-        <h1>
-<a id="dymkkk" class="anchor" href="#dymkkk" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>dymkkk</h1>
-
-<p>丁月明的博客</p>
-      </section>
-
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>Projects by <a href="https://github.com/dymkkk">dymkkk</a> can be found on <a href="https://github.com/dymkkk">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="https://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
-      </footer>
-
+<body>
+    <div data-role="page" class="jqm-demos" data-quicklinks="true">
+        <div data-demo-html="true">
+            <div data-role="tabs">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#p1" data-theme="a" data-ajax="false">投资资讯</a></li>
+                        <li><a href="#p2" data-theme="a" data-ajax="false">点位预测</a></li>
+                        <li><a href="#p3" data-theme="a" data-ajax="false">黄金屋</a></li>
+                        <li><a href="#p4" data-theme="a" data-ajax="false">推广合作</a></li>
+                    </ul>
+                </div>
+                <div id="p1" class="ui-content">
+                    <h1>1111</h1>
+                </div>
+                <div id="p2" class="ui-content">
+                    <div data-role="navbar">
+                        <ul>
+                            <li class="page2Nav"><a class="ui-btn-active" href="#" data-theme="a">上升行情</a></li>
+                            <li class="page2Nav"><a href="#" data-theme="a">下跌行情</a></li>
+                        </ul>
+                    </div>
+                    <div class="page2_sub page2_sub1">
+                        <div class="ui-corner-all custom-corners group1">
+                            <div class="ui-bar ui-bar-a">
+                                <h3>上升行情</h3>
+                            </div>
+                            <div class="ui-body ui-body-a">
+                                <label for="s_s1">波段低点 S1</label>
+                                <input type="number" id="s_s1"/>
+                                <label for="s_s2">波段高点 S2</label>
+                                <input type="number" id="s_s2"/>
+                                <label for="s_s3">实际回调点位 S3</label>
+                                <input type="number" id="s_s3"/>
+                            </div>
+                        </div>
+                        <div class="ui-corner-all custom-corners group2">
+                            <div class="ui-bar ui-bar-a">
+                                <h3>多单关注点</h3>
+                            </div>
+                            <div class="ui-body ui-body-none ui-body-a">
+                                <div class="ui-grid-b">
+                                    <div class="ui-block-a">
+                                        <div class="ui-content p_1">--.--</div>
+                                        <div class="ui-bar ui-bar-a">关注点1</div>
+                                    </div>
+                                    <div class="ui-block-b">
+                                        <div class="ui-content p_2">--.--</div>
+                                        <div class="ui-bar ui-bar-a">关注点2</div>
+                                    </div>
+                                    <div class="ui-block-c">
+                                        <div class="ui-content p_3">--.--</div>
+                                        <div class="ui-bar ui-bar-a">关注点3</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-corner-all custom-corners group3">
+                                <div class="ui-bar ui-bar-a">
+                                    <h3>止盈关注点</h3>
+                                </div>
+                                <div class="ui-body ui-body-none ui-body-a">
+                                    <div class="ui-grid-b">
+                                        <div class="ui-block-a">
+                                            <div class="ui-content p_4">--.--</div>
+                                            <div class="ui-bar ui-bar-a">关注点1</div>
+                                        </div>
+                                        <div class="ui-block-b">
+                                            <div class="ui-content p_5">--.--</div>
+                                            <div class="ui-bar ui-bar-a">关注点2</div>
+                                        </div>
+                                        <div class="ui-block-c">
+                                            <div class="ui-content p_6">--.--</div>
+                                            <div class="ui-bar ui-bar-a">关注点3</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-content">多单止损判断：当行情有效跌破前期波动低点，暂时离场观望。</div>
+                    </div>
+                    <div class="page2_sub page2_sub2">
+                        <div class="ui-corner-all custom-corners group1">
+                            <div class="ui-bar ui-bar-a">
+                                <h3>下跌行情</h3>
+                            </div>
+                            <div class="ui-body ui-body-a">
+                                <label for="x_s1">波段高点 S1</label>
+                                <input type="number" id="x_s1"/>
+                                <label for="x_s2">波段低点 S2</label>
+                                <input type="number" id="x_s2"/>
+                                <label for="x_s3">实际反弹点位 S3</label>
+                                <input type="number" id="x_s3"/>
+                            </div>
+                        </div>
+                        <div class="ui-corner-all custom-corners group2">
+                            <div class="ui-bar ui-bar-a">
+                                <h3>空单关注点</h3>
+                            </div>
+                            <div class="ui-body ui-body-none ui-body-a">
+                                <div class="ui-grid-b">
+                                    <div class="ui-block-a">
+                                        <div class="ui-content p_1">--.--</div>
+                                        <div class="ui-bar ui-bar-a">关注点1</div>
+                                    </div>
+                                    <div class="ui-block-b">
+                                        <div class="ui-content p_2">--.--</div>
+                                        <div class="ui-bar ui-bar-a">关注点2</div>
+                                    </div>
+                                    <div class="ui-block-c">
+                                        <div class="ui-content p_3">--.--</div>
+                                        <div class="ui-bar ui-bar-a">关注点3</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-corner-all custom-corners group3">
+                                <div class="ui-bar ui-bar-a">
+                                    <h3>止盈关注点</h3>
+                                </div>
+                                <div class="ui-body ui-body-none ui-body-a">
+                                    <div class="ui-grid-b">
+                                        <div class="ui-block-a">
+                                            <div class="ui-content p_4">--.--</div>
+                                            <div class="ui-bar ui-bar-a">关注点1</div>
+                                        </div>
+                                        <div class="ui-block-b">
+                                            <div class="ui-content p_5">--.--</div>
+                                            <div class="ui-bar ui-bar-a">关注点2</div>
+                                        </div>
+                                        <div class="ui-block-c">
+                                            <div class="ui-content p_6">--.--</div>
+                                            <div class="ui-bar ui-bar-a">关注点3</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-content">空单止损判断：当行情有效突破前期波动高点，暂时离场观望。</div>
+                    </div>
+                </div>
+                <div id="p3" class="ui-content">
+                    <h1>3333333</h1>
+                </div>
+                <div id="p4" class="ui-content">
+                    <h1>444444</h1>
+                </div>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
+            <p>Copyright 2014 The jQuery Foundation</p>
+        </div>
     </div>
+    <!-- /page -->
+</body>
 
-    
-  </body>
 </html>
