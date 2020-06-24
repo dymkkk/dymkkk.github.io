@@ -82,7 +82,7 @@ body {
 <body>
   <div class="recordContainer">
     <div class="btn startBtn">开始录制</div>
-    <video id="preview" width="800" height="500" autoplay></video>
+    <video id="preview" width="800" height="500" autoplay muted="true"></video>
   </div>
   <div class="videoContainer">
     <video id="theVideo" width="800" height="500" controls></video>
@@ -105,6 +105,7 @@ body {
 
 
 
+
   startBtn.addEventListener("click", function() {
     if (showStop) {
       showStop = false;
@@ -114,32 +115,55 @@ body {
     } else {
       showStop = true;
       startBtn.innerHTML = "停止";
-      navigator.mediaDevices.getDisplayMedia({
-          video: true,
-          audio: {
-            echoCancellation: true,
-            noiseSuppression: true,
-            sampleRate: 44100
-          }
-        })
+      navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
         .then(stream => {
 
-          setTimeout(() => {
-            console.log(stream.getAudioTracks().length);
-          }, 3000)
-          let recorder = new MediaRecorder(stream);
-          preview.srcObject = stream;
-          preview.captureStream = preview.captureStream || preview.mozCaptureStream;
-          let chunks = [];
-          chunks.length = 0;
-          recorder.ondataavailable = event => chunks.push(event.data);
-          recorder.start();
-          recorder.onstop = function(e) {
-            let recordedBlob = new Blob(chunks, { type: "video/webm; codecs=vp8" });
-            theVideo.src = URL.createObjectURL(recordedBlob);
-            downloadBtn.href = theVideo.src;
-            downloadBtn.download = "recordedVideo.webm";
-          }
+          let micStream = null;
+          navigator.mediaDevices.enumerateDevices().then(function(devices) {
+            let micNumber = 0;
+            devices.forEach(function(device) {
+              if (device.kind == "audioinput") {
+                micNumber++;
+              }
+            })
+            console.log("micNumber=" + micNumber)
+          });
+          navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
+            micStream = _micStream
+
+            let context = new AudioContext();
+            let audioDestination = context.createMediaStreamDestination();
+            const micSource = context.createMediaStreamSource(micStream);
+            const micGain = context.createGain();
+            micGain.gain.value = 1.0;
+            micSource.connect(micGain).connect(audioDestination);
+            //
+
+            micStream.getAudioTracks().forEach(function(track) {
+              stream.addTrack(track);
+            });
+
+            //
+            let recorder = new MediaRecorder(stream);
+            preview.srcObject = stream;
+            preview.captureStream = preview.captureStream || preview.mozCaptureStream;
+            let chunks = [];
+            chunks.length = 0;
+            recorder.ondataavailable = event => chunks.push(event.data);
+            recorder.start();
+            recorder.onstop = function(e) {
+              console.log(stream.getAudioTracks());
+              //
+              let recordedBlob = new Blob(chunks, { type: "video/webm; codecs=vp8" });
+              theVideo.src = URL.createObjectURL(recordedBlob);
+              downloadBtn.href = theVideo.src;
+              downloadBtn.download = "recordedVideo.mp4";
+            }
+
+          });
+
+
+
         })
         .catch(log);
     }
@@ -159,6 +183,52 @@ body {
   function log(msg) {
     logDom.innerHTML += msg + "\n";
   }
+
+  function SoundMeter(context) {
+    this.context = context;
+    this.instant = 0.0;
+    this.slow = 0.0;
+    this.clip = 0.0;
+    this.script = context.createScriptProcessor(2048, 1, 1);
+    var that = this;
+    this.script.onaudioprocess = function(event) {
+      var input = event.inputBuffer.getChannelData(0);
+      var i;
+      var sum = 0.0;
+      var clipcount = 0;
+      for (i = 0; i < input.length; ++i) {
+        sum += input[i] * input[i];
+        if (Math.abs(input[i]) > 0.99) {
+          clipcount += 1;
+        }
+      }
+      that.instant = Math.sqrt(sum / input.length);
+      that.slow = 0.95 * that.slow + 0.05 * that.instant;
+      that.clip = clipcount / input.length;
+    };
+  }
+
+  SoundMeter.prototype.connectToSource = function(stream, callback) {
+    console.log("SoundMeter connecting");
+    try {
+      this.mic = this.context.createMediaStreamSource(stream);
+      this.mic.connect(this.script);
+      // necessary to make sample run, but should not be.
+      this.script.connect(this.context.destination);
+      if (typeof callback !== "undefined") {
+        callback(null);
+      }
+    } catch (e) {
+      console.error(e);
+      if (typeof callback !== "undefined") {
+        callback(e);
+      }
+    }
+  };
+  SoundMeter.prototype.stop = function() {
+    this.mic.disconnect();
+    this.script.disconnect();
+  };
 
 
   // let preview = document.getElementById("preview");
