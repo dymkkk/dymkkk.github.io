@@ -135,7 +135,7 @@ body {
             let audioDestination = context.createMediaStreamDestination();
             const micSource = context.createMediaStreamSource(micStream);
             const micGain = context.createGain();
-            micGain.gain.value = 0.0;//---------音量
+            micGain.gain.value = 1.0;//---------音量
             micSource.connect(micGain).connect(audioDestination);
             //
 
