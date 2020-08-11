@@ -121,6 +121,7 @@ body {
           let micStream = null;
           navigator.mediaDevices.enumerateDevices().then(function(devices) {
             let micNumber = 0;
+            console.log(devices);
             devices.forEach(function(device) {
               if (device.kind == "audioinput") {
                 micNumber++;
