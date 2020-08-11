@@ -135,7 +135,7 @@ body {
             let audioDestination = context.createMediaStreamDestination();
             const micSource = context.createMediaStreamSource(micStream);
             const micGain = context.createGain();
-            micGain.gain.value = 1.0;
+            micGain.gain.value = 0.0;//---------音量
             micSource.connect(micGain).connect(audioDestination);
             //
 
@@ -157,7 +157,7 @@ body {
               let recordedBlob = new Blob(chunks, { type: "video/webm; codecs=vp8" });
               theVideo.src = URL.createObjectURL(recordedBlob);
               downloadBtn.href = theVideo.src;
-              downloadBtn.download = "recordedVideo.mp4";
+              downloadBtn.download = "recordedVideo.webm";
             }
 
           });
