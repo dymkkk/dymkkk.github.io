@@ -129,7 +129,7 @@ body {
             })
             console.log("micNumber=" + micNumber)
           });
-          navigator.mediaDevices.getUserMedia({ audio: false }).then(function(_micStream) {
+          navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
             micStream = _micStream
 
             let context = new AudioContext();
