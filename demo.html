@@ -107,7 +107,14 @@ body {
 
 
   startBtn.addEventListener("click", function() {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
+    if (showStop) {
+      showStop = false;
+      recordContainer.style.visibility = "hidden";
+      videoContainer.style.visibility = "visible";
+      stop(preview.srcObject);
+    } else {
+      showStop = true;
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
             // micStream = _micStream
             // console.log("----------",stream,micStream);
             // let context = new AudioContext();
@@ -142,6 +149,7 @@ body {
             }
 
           });
+    }
 
   }, false);
 
