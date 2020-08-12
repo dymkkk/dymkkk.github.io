@@ -132,6 +132,21 @@ body {
           //
           let recorder = new MediaRecorder(stream);
             preview.srcObject = stream;
+            //
+            // let context = new AudioContext();
+            // let audioDestination = context.createMediaStreamDestination();
+            // const micSource = context.createMediaStreamSource(micStream);
+            // const micGain = context.createGain();
+            // micGain.gain.value = 1.0;//---------音量
+            // micSource.connect(micGain).connect(audioDestination);
+            // //
+
+            // micStream.getAudioTracks().forEach(function(track) {
+            //   stream.addTrack(track);
+            // });
+            //
+
+            console.log("+++",micStream.getAudioTracks());
             preview.captureStream = preview.captureStream || preview.mozCaptureStream;
             let chunks = [];
             chunks.length = 0;
