@@ -119,18 +119,18 @@ body {
         .then(stream => {
 
           let micStream = null;
-          navigator.mediaDevices.enumerateDevices().then(function(devices) {
-            let micNumber = 0;
-            console.log(devices);
-            devices.forEach(function(device) {
-              if (device.kind == "audiooutput" &&  device.label =="默认 - Internal Speakers (Built-in)") {
-                micNumber++;
-              }
-            })
-            console.log("micNumber=" + micNumber)
-          });
+          // navigator.mediaDevices.enumerateDevices().then(function(devices) {
+          //   let micNumber = 0;
+          //   console.log(devices);
+          //   devices.forEach(function(device) {
+          //     if (device.kind == "audiooutput" &&  device.label =="默认 - Internal Speakers (Built-in)") {
+          //       micNumber++;
+          //     }
+          //   })
+          //   console.log("micNumber=" + micNumber)
+          // });
           //
-          let recorder = new MediaRecorder(_micStream);
+          let recorder = new MediaRecorder(stream);
             preview.srcObject = stream;
             preview.captureStream = preview.captureStream || preview.mozCaptureStream;
             let chunks = [];
@@ -147,8 +147,8 @@ body {
             }
           //
           navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
-            micStream = _micStream
-            console.log("----",micStream);
+            //micStream = _micStream
+            //console.log("----",micStream);
 
             // let context = new AudioContext();
             // let audioDestination = context.createMediaStreamDestination();
