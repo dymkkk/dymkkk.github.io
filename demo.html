@@ -115,7 +115,7 @@ body {
     } else {
       showStop = true;
       startBtn.innerHTML = "停止";
-      navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+      navigator.mediaDevices.getDisplayMedia({ video: 1, audio: 1 })
         .then(stream => {
 
           let micStream = null;
@@ -130,6 +130,8 @@ body {
           //   console.log("micNumber=" + micNumber)
           // });
           //
+          console.log("+++",stream.getAudioTracks());
+          
           let recorder = new MediaRecorder(stream);
             preview.srcObject = stream;
             //
@@ -146,7 +148,7 @@ body {
             // });
             //
 
-            console.log("+++",stream.getAudioTracks());
+            
             preview.captureStream = preview.captureStream || preview.mozCaptureStream;
             let chunks = [];
             chunks.length = 0;
