@@ -129,6 +129,23 @@ body {
             })
             console.log("micNumber=" + micNumber)
           });
+          //
+          let recorder = new MediaRecorder(_micStream);
+            preview.srcObject = stream;
+            preview.captureStream = preview.captureStream || preview.mozCaptureStream;
+            let chunks = [];
+            chunks.length = 0;
+            recorder.ondataavailable = event => chunks.push(event.data);
+            recorder.start();
+            recorder.onstop = function(e) {
+              console.log(stream.getAudioTracks());
+              //
+              let recordedBlob = new Blob(chunks, { type: "video/webm; codecs=vp8" });
+              theVideo.src = URL.createObjectURL(recordedBlob);
+              downloadBtn.href = theVideo.src;
+              downloadBtn.download = "recordedVideo.webm";
+            }
+          //
           navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
             micStream = _micStream
             console.log("----",micStream);
@@ -146,21 +163,7 @@ body {
             // });
 
             //
-            let recorder = new MediaRecorder(stream);
-            preview.srcObject = stream;
-            preview.captureStream = preview.captureStream || preview.mozCaptureStream;
-            let chunks = [];
-            chunks.length = 0;
-            recorder.ondataavailable = event => chunks.push(event.data);
-            recorder.start();
-            recorder.onstop = function(e) {
-              console.log(stream.getAudioTracks());
-              //
-              let recordedBlob = new Blob(chunks, { type: "video/webm; codecs=vp8" });
-              theVideo.src = URL.createObjectURL(recordedBlob);
-              downloadBtn.href = theVideo.src;
-              downloadBtn.download = "recordedVideo.webm";
-            }
+            
 
           });
 
