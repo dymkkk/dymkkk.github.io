@@ -124,7 +124,7 @@ body {
 
             //
 
-            let  stream = _micStream
+            let  stream = _micStream;
             let recorder = new MediaRecorder(stream);
             preview.srcObject = stream;
             preview.captureStream = preview.captureStream || preview.mozCaptureStream;
