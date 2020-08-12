@@ -131,22 +131,22 @@ body {
           // });
 
 
-          navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
-            micStream = _micStream
-            console.log("----------",stream,micStream);
-            let context = new AudioContext();
-            let audioDestination = context.createMediaStreamDestination();
-            const micSource = context.createMediaStreamSource(micStream);
-            const micGain = context.createGain();
-            micGain.gain.value = 1.0;//---------音量
-            micSource.connect(micGain).connect(audioDestination);
-            //
+          // navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
+          //   micStream = _micStream
+          //   console.log("----------",stream,micStream);
+          //   let context = new AudioContext();
+          //   let audioDestination = context.createMediaStreamDestination();
+          //   const micSource = context.createMediaStreamSource(micStream);
+          //   const micGain = context.createGain();
+          //   micGain.gain.value = 1.0;//---------音量
+          //   micSource.connect(micGain).connect(audioDestination);
+          //   //
 
-            micStream.getAudioTracks().forEach(function(track) {
-              stream.addTrack(track);
-            });
+          //   micStream.getAudioTracks().forEach(function(track) {
+          //     stream.addTrack(track);
+          //   });
+          // });
 
-            //
             let recorder = new MediaRecorder(stream);
             preview.srcObject = stream;
             preview.captureStream = preview.captureStream || preview.mozCaptureStream;
@@ -162,8 +162,6 @@ body {
               downloadBtn.href = theVideo.src;
               downloadBtn.download = "recordedVideo.webm";
             }
-
-          });
 
 
 
