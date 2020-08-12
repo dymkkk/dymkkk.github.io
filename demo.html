@@ -114,9 +114,25 @@ body {
       stop(preview.srcObject);
     } else {
       showStop = true;
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
-            // micStream = _micStream
-            // console.log("----------",stream,micStream);
+      startBtn.innerHTML = "停止";
+      navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+        .then(stream => {
+
+          let micStream = null;
+          navigator.mediaDevices.enumerateDevices().then(function(devices) {
+            let micNumber = 0;
+            console.log(devices);
+            devices.forEach(function(device) {
+              if (device.kind == "audiooutput" &&  device.label =="默认 - Internal Speakers (Built-in)") {
+                micNumber++;
+              }
+            })
+            console.log("micNumber=" + micNumber)
+          });
+          navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
+            micStream = _micStream
+            console.log("----",micStream);
+
             // let context = new AudioContext();
             // let audioDestination = context.createMediaStreamDestination();
             // const micSource = context.createMediaStreamSource(micStream);
@@ -130,8 +146,6 @@ body {
             // });
 
             //
-
-            let  stream = _micStream;
             let recorder = new MediaRecorder(stream);
             preview.srcObject = stream;
             preview.captureStream = preview.captureStream || preview.mozCaptureStream;
@@ -140,7 +154,7 @@ body {
             recorder.ondataavailable = event => chunks.push(event.data);
             recorder.start();
             recorder.onstop = function(e) {
-              //console.log(stream.getAudioTracks());
+              console.log(stream.getAudioTracks());
               //
               let recordedBlob = new Blob(chunks, { type: "video/webm; codecs=vp8" });
               theVideo.src = URL.createObjectURL(recordedBlob);
@@ -149,6 +163,11 @@ body {
             }
 
           });
+
+
+
+        })
+        .catch(log);
     }
 
   }, false);
