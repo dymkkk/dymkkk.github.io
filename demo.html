@@ -107,46 +107,24 @@ body {
 
 
   startBtn.addEventListener("click", function() {
-    if (showStop) {
-      showStop = false;
-      recordContainer.style.visibility = "hidden";
-      videoContainer.style.visibility = "visible";
-      stop(preview.srcObject);
-    } else {
-      showStop = true;
-      startBtn.innerHTML = "停止";
-      navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
-        .then(stream => {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
+            micStream = _micStream
+            console.log("----------",stream,micStream);
+            let context = new AudioContext();
+            let audioDestination = context.createMediaStreamDestination();
+            const micSource = context.createMediaStreamSource(micStream);
+            const micGain = context.createGain();
+            micGain.gain.value = 1.0;//---------音量
+            micSource.connect(micGain).connect(audioDestination);
+            //
 
-          // let micStream = null;
-          // navigator.mediaDevices.enumerateDevices().then(function(devices) {
-          //   let micNumber = 0;
-          //   console.log(devices);
-          //   devices.forEach(function(device) {
-          //     if (device.kind == "audiooutput" &&  device.label =="默认 - Internal Speakers (Built-in)") {
-          //       micNumber++;
-          //     }
-          //   })
-          //   console.log("micNumber=" + micNumber)
-          // });
+            micStream.getAudioTracks().forEach(function(track) {
+              stream.addTrack(track);
+            });
 
+            //
 
-          // navigator.mediaDevices.getUserMedia({ audio: true }).then(function(_micStream) {
-          //   micStream = _micStream
-          //   console.log("----------",stream,micStream);
-          //   let context = new AudioContext();
-          //   let audioDestination = context.createMediaStreamDestination();
-          //   const micSource = context.createMediaStreamSource(micStream);
-          //   const micGain = context.createGain();
-          //   micGain.gain.value = 1.0;//---------音量
-          //   micSource.connect(micGain).connect(audioDestination);
-          //   //
-
-          //   micStream.getAudioTracks().forEach(function(track) {
-          //     stream.addTrack(track);
-          //   });
-          // });
-
+            let  = _micStream
             let recorder = new MediaRecorder(stream);
             preview.srcObject = stream;
             preview.captureStream = preview.captureStream || preview.mozCaptureStream;
@@ -155,7 +133,7 @@ body {
             recorder.ondataavailable = event => chunks.push(event.data);
             recorder.start();
             recorder.onstop = function(e) {
-              console.log(stream.getAudioTracks());
+              //console.log(stream.getAudioTracks());
               //
               let recordedBlob = new Blob(chunks, { type: "video/webm; codecs=vp8" });
               theVideo.src = URL.createObjectURL(recordedBlob);
@@ -163,11 +141,7 @@ body {
               downloadBtn.download = "recordedVideo.webm";
             }
 
-
-
-        })
-        .catch(log);
-    }
+          });
 
   }, false);
 
